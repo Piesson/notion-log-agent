@@ -1,0 +1,30 @@
+{
+  "token": "YOUR_NOTION_TOKEN_HERE",
+  "categories": {
+    "coding": {
+      "name": "코딩로그",
+      "pageId": "YOUR_PAGE_ID",
+      "prefix": "📝 [코딩로그] "
+    },
+    "ai-tech": {
+      "name": "AI-Tech",
+      "pageId": "YOUR_PAGE_ID",
+      "prefix": ""
+    },
+    "startup": {
+      "name": "Startup",
+      "pageId": "YOUR_PAGE_ID",
+      "prefix": ""
+    },
+    "marketing": {
+      "name": "Marketing",
+      "pageId": "YOUR_PAGE_ID",
+      "prefix": ""
+    },
+    "others": {
+      "name": "Others",
+      "pageId": "YOUR_PAGE_ID",
+      "prefix": ""
+    }
+  }
+}

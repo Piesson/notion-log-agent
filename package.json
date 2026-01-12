@@ -1,0 +1,16 @@
+{
+  "name": "notion-log-agent",
+  "version": "1.0.0",
+  "description": "Unified Notion page creator for Claude Code",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": ["notion", "cli", "claude"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@notionhq/client": "^2.2.15",
+    "@tryfabric/martian": "^1.2.4"
+  }
+}
