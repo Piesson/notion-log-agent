@@ -83,11 +83,51 @@ async function searchPages(query) {
   }
 }
 
+async function appendToPage(pageId, content) {
+  if (!content) {
+    console.error('Error: Content is required for append');
+    process.exit(1);
+  }
+
+  let children = [];
+  try {
+    children = markdownToBlocks(content);
+  } catch (err) {
+    children = [{
+      object: 'block',
+      type: 'paragraph',
+      paragraph: {
+        rich_text: [{ type: 'text', text: { content: content.substring(0, 2000) } }]
+      }
+    }];
+  }
+
+  try {
+    // Append in batches of 100
+    for (let i = 0; i < children.length; i += 100) {
+      const batch = children.slice(i, i + 100);
+      await notion.blocks.children.append({
+        block_id: pageId,
+        children: batch
+      });
+    }
+
+    const url = 'https://notion.so/' + pageId.replace(/-/g, '');
+    console.log(`Appended content to page`);
+    console.log(`URL: ${url}`);
+  } catch (error) {
+    console.error('Error:', error.message);
+    process.exit(1);
+  }
+}
+
 function showHelp() {
   console.log(`Usage:
   node index.js <category> "title" ["content"]
   cat file.md | node index.js <category> "title"
   node index.js search "query"
+  node index.js append <pageId> "content"
+  cat file.md | node index.js append <pageId>
 
 Categories:
   coding     - 코딩로그 (📝 [코딩로그] prefix)
@@ -100,6 +140,7 @@ Examples:
   node index.js coding "New Feature" "## Details\\nImplemented X"
   node index.js ai-tech "GPT-5 News" "Summary here"
   node index.js search "test"
+  node index.js append 2e6c5c69-xxxx-xxxx "## New Section\\nContent here"
 `);
 }
 
@@ -122,6 +163,19 @@ async function main() {
 
   if (args[0] === 'search') {
     await searchPages(args[1] || '');
+    return;
+  }
+
+  if (args[0] === 'append') {
+    const pageId = args[1];
+    if (!pageId) {
+      console.error('Error: Page ID is required for append');
+      showHelp();
+      process.exit(1);
+    }
+    const stdinContent = await readStdin();
+    const content = stdinContent || args[2] || '';
+    await appendToPage(pageId, content);
     return;
   }
 
