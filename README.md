@@ -49,3 +49,11 @@ cat extra.md | node index.js append 2e8c5c69a2df81dd
 
 1. **노션 URL에서 추출**: `https://notion.so/제목-2e8c5c69a2df81dd...` → `2e8c5c69a2df81dd...`
 2. **search 명령 사용**: `node index.js search "제목"` → ID 출력됨
+
+## Recent Changes
+
+### 2026-01-19
+- `index.js`: Updated
+
+
+
